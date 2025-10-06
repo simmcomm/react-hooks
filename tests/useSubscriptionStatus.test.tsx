@@ -37,7 +37,6 @@ describe('useSubscriptionStatus', () => {
 
   it('fetches subscription status when client is initialized', async () => {
     vi.useFakeTimers();
-    // const spies = vi.spyOn(mockClient, 'checkSubscription');
 
     (useInternalAgencyClient as Mock).mockReturnValue({
       client: mockClient,

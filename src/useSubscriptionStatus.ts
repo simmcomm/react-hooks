@@ -14,7 +14,7 @@ export function useSubscriptionStatus() {
     if (!clientInitialized) return;
     if (subscriptionStatus) return;
     const { getFrid } = client.fridStore;
-    let frid = getFrid();
+    const frid = getFrid();
     if (!frid) return;
     if (firstLoad && loading) return;
     firstLoad = true;
