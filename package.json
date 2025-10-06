@@ -48,7 +48,7 @@
     "tsdown": "^0.11.1",
     "typescript": "^5.8.3",
     "vite": "npm:rolldown-vite@latest",
-    "vitest": "^3.1.3"
+    "vitest": "^3.2.4"
   },
   "peerDependencies": {
     "@simmcomm/internal-agency-client": "^1.4.0",
