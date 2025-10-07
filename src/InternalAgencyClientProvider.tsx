@@ -32,7 +32,7 @@ export const InternalAgencyClientProvider: Provider = ({ config, children }) => 
   );
 
   useEffect(() => {
-    if (initialized) return;
+    if (initialized) { return; }
     if (searchParams && searchParams.has('frid')) {
       client.fridStore.setFrid(searchParams.get('frid')!);
     }

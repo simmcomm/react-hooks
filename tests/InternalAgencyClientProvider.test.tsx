@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { act, render, waitFor } from '@testing-library/react';
 import { InternalAgencyClientProvider, useInternalAgencyClient } from '../src';
 import { createInternalAgencyClient } from '@simmcomm/internal-agency-client';
 import { describe, expect, it, type Mock, vi } from 'vitest';
@@ -98,5 +98,54 @@ describe('InternalAgencyClientProvider', () => {
       expect(getByTestId('initializing').textContent).toBe('false');
       expect(getByTestId('error').textContent).toBe('error');
     });
+  });
+
+  it('throws without being wrapped in a Provider', () => {
+    const TestComponent = () => {
+      const { client } = useInternalAgencyClient();
+      return (
+        <div>
+          {client ? 'client-set' : 'client-not-set'}
+        </div>
+      );
+    };
+
+    expect(() => {
+      render(<TestComponent/>);
+    }).toThrowError('useInternalAgencyClient must be used within an InternalAgencyClientProvider');
+  });
+
+  it('does not initialize client if already initialized', async () => {
+    vi.useFakeTimers();
+
+    const mockClient = {
+      fridStore: { setFrid: vi.fn(), getFrid: vi.fn() },
+      saveEvent: vi.fn(() => Promise.resolve()),
+    };
+    (createInternalAgencyClient as Mock).mockReturnValueOnce(mockClient);
+
+    const TestComponent = () => {
+      const { client, initialized, initializing } = useInternalAgencyClient();
+      return (
+        <div>
+          <span data-testid="initialized">{String(initialized)}</span>
+          <span data-testid="initializing">{String(initializing)}</span>
+          <span data-testid="client">{client ? 'client-set' : 'client-not-set'}</span>
+        </div>
+      );
+    };
+
+    render(
+      <InternalAgencyClientProvider config={clientConfigMock}>
+        <TestComponent/>
+        <TestComponent/>
+      </InternalAgencyClientProvider>,
+    );
+
+    await act(async () => {
+      await vi.advanceTimersByTime(0);
+    });
+
+    expect(mockClient.saveEvent).toHaveBeenCalledOnce();
   });
 });
