@@ -8,13 +8,7 @@ export default defineConfig({
     globals: true,
     setupFiles: './tests/setup.ts',
     coverage: {
-      exclude: [
-        'coverage/**',
-        'playground/**',
-        'dist/**',
-        '**/node_modules/**',
-        '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,tsdown,build,eslint,prettier}.config.*',
-      ],
+      include: ['src/**'],
     },
   },
 });
