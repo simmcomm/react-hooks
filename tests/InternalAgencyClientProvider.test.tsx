@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render, waitFor } from '@testing-library/react';
+import { act, render, renderHook, waitFor } from '@testing-library/react';
 import { InternalAgencyClientProvider, useInternalAgencyClient } from '../src';
 import { createInternalAgencyClient } from '@simmcomm/internal-agency-client';
 import { describe, expect, it, type Mock, vi } from 'vitest';
@@ -147,5 +147,28 @@ describe('InternalAgencyClientProvider', () => {
     });
 
     expect(mockClient.saveEvent).toHaveBeenCalledOnce();
+  });
+
+  it('does not initialize client if manualInit=true', async () => {
+    vi.useFakeTimers();
+
+    const mockClient = {
+      saveEvent: vi.fn(() => Promise.resolve()),
+    };
+    (createInternalAgencyClient as Mock).mockReturnValueOnce(mockClient);
+
+    renderHook(() => useInternalAgencyClient({ manualInit: true }), {
+      wrapper: ({ children }) => (
+        <InternalAgencyClientProvider config={clientConfigMock}>
+          {children}
+        </InternalAgencyClientProvider>
+      ),
+    });
+
+    await act(async () => {
+      await vi.advanceTimersByTime(0);
+    });
+
+    expect(mockClient.saveEvent).not.toHaveBeenCalled();
   });
 });
