@@ -10,12 +10,12 @@ export function useSubscriptionStatus() {
   const { client, initialized: clientInitialized } = useInternalAgencyClient();
 
   useEffect(() => {
-    if (!client) return;
-    if (!clientInitialized) return;
-    if (subscriptionStatus) return;
+    if (!client || !clientInitialized || subscriptionStatus) return;
+
     const { getFrid } = client.fridStore;
     const frid = getFrid();
     if (!frid) return;
+
     if (firstLoad && loading) return;
     firstLoad = true;
 
