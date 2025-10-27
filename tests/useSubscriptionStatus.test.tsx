@@ -58,7 +58,7 @@ describe('useSubscriptionStatus', () => {
   });
 
   it('does not fetch subscription status if frid is absent', async () => {
-    vi.restoreAllMocks();
+    vi.resetAllMocks();
     vi.useFakeTimers();
 
     mockClient.fridStore.getFrid.mockReturnValueOnce(undefined);
