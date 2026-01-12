@@ -52,8 +52,8 @@
   },
   "peerDependencies": {
     "@simmcomm/internal-agency-client": "^1.4.0",
-    "next": "^15.5.7 || ^16.0.7",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "next": "^15.5.7 || ^16.0.9",
+    "react": "^19.1.2",
+    "react-dom": "^19.1.2"
   }
 }
