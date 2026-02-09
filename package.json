@@ -1,6 +1,6 @@
 {
   "name": "@simmcomm/react-hooks",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Common React hooks for Next.js projects.",
   "type": "module",
   "license": "MIT",
